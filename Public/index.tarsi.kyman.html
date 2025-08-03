@@ -164,10 +164,10 @@
                  * @static
                  */
                 LerGaston.is_key = item => (
-                    key && 
-                    typeof key == "string" && 
-                    key.trim() == key && 
-                    /^[a-z_][a-z0-9_]*$/i.test(key)
+                    item && 
+                    typeof item == "string" && 
+                    item.trim() == item && 
+                    /^[a-z_][a-z0-9_]*$/i.test(item)
                 );
 
                 /**
@@ -191,7 +191,7 @@
 
                     items.forEach(item => {
                         if(LerGaston.is_array(item))
-                            keys.push(...LerGaston.get_keys(item));
+                            keys.push(...LerGaston.get_keys(...item));
                         else if(LerGaston.is_key(item))
                             keys.push(item);
                     });
@@ -212,7 +212,7 @@
 
                     items.forEach(item => {
                         if(LerGaston.is_array(item))
-                            dictionaries.push(...LerGaston.get_dictionaries(item));
+                            dictionaries.push(...LerGaston.get_dictionaries(...item));
                         else if(LerGaston.is_dictionary(item))
                             dictionaries.push(item);
                     });
