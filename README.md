@@ -38,8 +38,23 @@ Los puntos por Jam se valorarán de 0 a 10 y se hará media por los jueces, quie
 
 Esta sesión constará de 2 horas, y sus objetivos son los siguientes:
 
-* Estructurar el proyecto.
-* Estructurar la base funcional.
-* Estructurar los datos.
+* Estructurar el proyecto. 9 Tarsi  6 KyMaN
+* Estructurar la base funcional. 9 Tarsi  8 KyMaN
+* Estructurar los datos. 4 Tarsi  6,5 KyMaN
 
-17:40 - 19:40
+3/8/2025 17:40 - 19:40
+
+### Sesión 2
+
+Esta sesión constará de 2 horas, y sus objetivos son los siguientes:
+
+* Parte estática para divirlo en bloques mas pequeños.
+* Logo.
+* GUI estrucuturar y elementos.
+* Drivers.
+
+* Carga información.
+* Generación informes.
+* Almacenado de datos.
+
+4/8/2025 17:45 - 19:45
