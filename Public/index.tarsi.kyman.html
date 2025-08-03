@@ -6,18 +6,520 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <script data-module="data" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8"></script>
+        <script data-module="data" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
+            "use strict";
 
-        <script data-module="styles" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8"></script>
+            /** @type {Object.<string, any|null>} */
+            const SETTINGS = {
+                /** @type {string} */
+                application_name : "LerGaston", 
+                /** @type {string} */
+                application_link : "https://lergaston.k3y.pw/", 
+                /** @type {string} */
+                application_git : "https://github.com/Tarsito/LerGaston/", 
+                /** @type {string} */
+                application_class : "ler-gaston", 
+                /** @type {string} */
+                application_logo : "/image/LerGaston.webp"
+            };
 
-        <script data-module="scripts"  data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8"></script>
+        </script>
 
-        <script data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8"></script>
+        <script data-module="styles" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
+            "use strict";
+
+            /** @type {number} */
+            let preload = setInterval(() => {
+                if(!window.SASS)
+                    return;
+                clearInterval(preload);
+
+                SASS({});
+
+            }, 100);
+
+        </script>
+
+        <script data-module="scripts" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
+            "use strict";
+
+            /**
+             * @class LerGaston
+             * @constructor
+             * @returns {void}
+             * @access public
+             * @static
+             */
+            const LerGaston = (function(){
+
+                /**
+                 * @constructs LerGaston
+                 * @returns {void}
+                 * @access private
+                 * @static
+                 */
+                const LerGaston = function(custom = null){
+                    
+                    /** @type {LerGaston} */
+                    const self = this;
+
+                    /**
+                     * @returns {void}
+                     * @access private
+                     */
+                    const constructor = () => {
+
+                        /** @type {number} */
+                        let preload = setInterval(() => {
+
+                            const body = document.querySelector("body");
+
+                            if(body){
+                                clearInterval(preload);
+                                try{
+                                    build_gui(body);
+                                }catch(exception){
+                                    console.error(exception);
+                                };
+                            };
+
+                        }, 100);
+
+                    };
+
+                    /**
+                     * @param {!(string|Array.<string>)} keys 
+                     * @param {?(Object.<string, any|null>|Array.<any|null>)} [inputs = null] 
+                     * @param {?any} [_default = null] 
+                     * @returns {any|null}
+                     * @access public
+                     */
+                    this.get = (keys, inputs = null, _default = null) => LerGaston.get_value(keys, [
+                        inputs, custom, SETTINGS
+                    ], _default);
+
+                    /**
+                     * @param {!HTMLElement} position
+                     * @returns {void}
+                     * @access private
+                     */
+                    const build_gui = position => {
+
+                        /** @type {string} */
+                        const name = self.get("application_name"), 
+                              /** @type {string} */
+                              _class = self.get("application_class"), 
+                              /** @type {string} */
+                              link = self.get("application_link"), 
+                              /** @type {string} */
+                              git = self.get("application_git"), 
+                              /** @type {string} */
+                              logo = self.get("application_logo");
+
+                        LerGaston.html([
+                            ["div", {
+                                class : _class, 
+                                data_application_name : name, 
+                                data_application_link : link, 
+                                data_application_git : git, 
+                                data_application_logo : logo
+                            }, [
+                                ["header", null, [
+                                    ["h1", {
+                                        data_i18n : "ler_gaston", 
+                                        data_i18n_without : true, 
+                                        title : name
+                                    }, [
+                                        ["a", {href : link, target : "_self"}, [
+                                            ["span", {class : "image"}, [
+                                                ["img", {src : logo, data_i18n : "ler_gaston", data_i18n_without : true, alt : "LerGaston"}], 
+                                                ["span", {style : "background-image:url('" + logo + "')"}]
+                                            ]], 
+                                            ["span", {data_i18n : "ler_gaston"}, name]
+                                        ]]
+                                    ]]
+                                ]], 
+                                ["main"], 
+                                ["footer", null, []]
+                            ]]
+                        ], position);
+                    };
+
+                    constructor();
+
+                };
+
+                /**
+                 * @param {?any} item 
+                 * @returns {boolean}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.is_array = item => item instanceof Array;
+
+                /**
+                 * @param {?any} item 
+                 * @returns {boolean}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.is_key = item => (
+                    key && 
+                    typeof key == "string" && 
+                    key.trim() == key && 
+                    /^[a-z_][a-z0-9_]*$/i.test(key)
+                );
+
+                /**
+                 * @param {?any} item 
+                 * @returns {boolean}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.is_dictionary = item => item && item.constructor == Object;
+
+                /**
+                 * @param {...(any|null)} items 
+                 * @returns {Array.<string>}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.get_keys = (...items) => {
+
+                    /** @type {Array.<string>} */
+                    const keys = [];
+
+                    items.forEach(item => {
+                        if(LerGaston.is_array(item))
+                            keys.push(...LerGaston.get_keys(item));
+                        else if(LerGaston.is_key(item))
+                            keys.push(item);
+                    });
+
+                    return keys;
+                };
+
+                /**
+                 * @param {...(any|null)} items 
+                 * @returns {Array.<Object.<string, any|null>>}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.get_dictionaries = (...items) => {
+
+                    /** @type {{Array.<Object.<string, any|null>>} */
+                    const dictionaries = [];
+
+                    items.forEach(item => {
+                        if(LerGaston.is_array(item))
+                            dictionaries.push(...LerGaston.get_dictionaries(item));
+                        else if(LerGaston.is_dictionary(item))
+                            dictionaries.push(item);
+                    });
+
+                    return dictionaries;
+                };
+
+                /**
+                 * @param {!(string|Array.<string>)} keys 
+                 * @param {!(Object.<string, any|null>|Array.<any|null>)} inputs 
+                 * @param {?any} [_default = null] 
+                 * @returns {any|null}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.get_value = (keys, inputs, _default = null) => {
+
+                    /** @type {number} */
+                    const l = (inputs = LerGaston.get_dictionaries(inputs)).length, 
+                          /** @type {number} */
+                          m = (keys = LerGaston.get_keys(keys)).length;
+                    
+                    for(let i = 0; i < l; i ++)
+                        for(let j = 0; j < m; j ++)
+                            if(inputs[i][keys[j]] !== undefined)
+                                return inputs[i][keys[j]];
+                    return _default;
+                };
+
+                /**
+                 * @param {!HTMLElement} item 
+                 * @param {!Object.<string, any|null>} attributes 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.css = (item, attributes) => {
+                    for(const key in attributes)
+                        item.setAttribute(key, attributes[key]);
+                };
+
+                /**
+                 * @param {!Array.<[string, Object.<string, any|null>|null, Array.<any|null>|null]|null>} structure 
+                 * @param {?HTMLElement} [parent = null] 
+                 * @returns {Array.<HTMLElement>}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.html = (structure, parent = null) => {
+
+                    /** @type {Array.<HTMLElement>} */
+                    const items = [];
+
+                    structure.forEach(item => {
+                        if(LerGaston.is_array(item)){
+
+                            /** @type {[string, Object.<string, any|null>|null, Array.<any|null>|null]} */
+                            const [tag, attributes, children] = item.concat([null, null]).slice(0, 3), 
+                                  /** @type {HTMLElement} */
+                                  subitem = document.createElement(tag);
+
+                            items.push(subitem);
+                            attributes && LerGaston.css(subitem, attributes);
+                            if(children){
+                                if(LerGaston.is_array(children))
+                                    LerGaston.html(children, subitem);
+                                else 
+                                    subitem.innerHTML = children;
+                            };
+                            parent && parent.appendChild(subitem);
+
+                        }else if(parent)
+                            parent.innerHTML += item;
+                    });
+
+                    return items;
+                };
+
+                /**
+                 * @class LerGaston.TypeModel
+                 * @constructor
+                 * @param {!string} name 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.TypeModel = (function(){
+
+                    /**
+                     * @class OrderModel
+                     * @constructor
+                     * @param {!string} name 
+                     * @returns {void}
+                     * @access public
+                     * @static
+                     */
+                    const OrderModel = function(name){
+
+                        /** @type {string} */
+                        this.name = name;
+
+                    };
+
+                    return OrderModel;
+                })();
+
+                /**
+                 * @class LerGaston.CoinModel
+                 * @constructor
+                 * @param {!string} name 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.CoinModel = (function(){
+
+                    /**
+                     * @class CoinModel
+                     * @constructor
+                     * @param {!string} name 
+                     * @returns {void}
+                     * @access public
+                     * @static
+                     */
+                    const CoinModel = function(name){
+
+                        /** @type {string} */
+                        this.name = name;
+
+                    };
+
+                    return CoinModel;
+                })();
+
+                /**
+                 * @class LerGaston.GroupModel
+                 * @constructor
+                 * @param {!string} name 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.GroupModel = (function(){
+
+                    /**
+                     * @class GroupModel
+                     * @constructor
+                     * @param {!string} name 
+                     * @returns {void}
+                     * @access public
+                     * @static
+                     */
+                    const GroupModel = function(name){
+
+                        /** @type {string} */
+                        this.name = name;
+
+                    };
+
+                    return GroupModel;
+                })();
+
+                /**
+                 * @class LerGaston.EntityModel
+                 * @constructor
+                 * @param {!string} name 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.EntityModel = (function(){
+
+                    /**
+                     * @class EntityModel
+                     * @constructor
+                     * @param {!string} name 
+                     * @returns {void}
+                     * @access public
+                     * @static
+                     */
+                    const EntityModel = function(name){
+
+                        /** @type {string} */
+                        this.name = name;
+                        /** @type {Array.<number>} */
+                        this.groups = [];
+
+                    };
+
+                    return EntityModel;
+                })();
+
+                /**
+                 * @class LerGaston.OrderModel
+                 * @constructor
+                 * @param {!string} name 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                LerGaston.OrderModel = (function(){
+
+                    /**
+                     * @class OrderModel
+                     * @constructor
+                     * @returns {void}
+                     * @access public
+                     * @static
+                     */
+                    const OrderModel = () => {
+
+                        /** @type {Array.<Date>} */
+                        this.date_start = null;
+                        /** @type {Array.<Date>} */
+                        this.date_done = null;
+                        /** @type {Array.<number>} */
+                        this.type = null;
+                        /** @type {Array.<number>} */
+                        this.quantity = null;
+                        /** @type {Array.<number>} */
+                        this.coin = null;
+                        /** @type {Array.<[number, number]>} */
+                        this.groups = [];
+                        /** @type {Array.<number>} */
+                        this.entity = null;
+
+                    };
+
+                    return OrderModel;
+                })();
+
+                return LerGaston;
+            })();
+
+            /**
+             * @class SASS
+             * @constructor
+             * @param {!Object.<string, any|null>} sass 
+             * @returns {void}
+             * @access public
+             * @static
+             */
+            const SASS = (function(){
+
+                /**
+                 * @constructs SASS
+                 * @param {!Object.<string, any|null>} sass 
+                 * @returns {void}
+                 * @access private
+                 * @static
+                 */
+                const SASS = sass => {
+
+                    /** @type {HTMLStyleElement|null} */
+                    let style = document.querySelector("style");
+
+                    if(!style){
+                        style = document.querySelector("head").appendChild(document.createElement("style"));
+                        style.setAttribute("type", "text/css;charset=utf-8");
+                        style.setAttribute("data-rel", "stylesheet");
+                        style.setAttribute("charset", "utf-8");
+                    };
+
+                    style.textContent += SASS.build(sass);
+
+                };
+
+                /**
+                 * @param {!Object.<string, any|null>} sass 
+                 * @param {!string} [parent = ""] 
+                 * @returns {string}
+                 * @access public
+                 * @static
+                 */
+                SASS.build = (sass, parent = "") => {
+
+                    /** @type {string} */
+                    let selector, 
+                        /** @type {string} */
+                        css = ``;
+
+                    css += Object.keys(sass).reduce((css, key) => css + (
+                        typeof sass[key] == "object" && sass[key].constructor == Object ? `\n\n${selector = parent + (
+                            ["&", ">", "~"].includes(parent[0]) ? "" : " "
+                        ) + key}\{${SASS.build(sass[key], selector)}\n}` : 
+                    `\n    ${key}: ${sass[key]};`));
+                    
+                    return css;
+                };
+
+                return SASS
+            })();
+
+        </script>
+
+        <script data-module="builder" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
+            "use strict";
+
+            /** @type {LerGaston} */
+            const ler_gaston = new LerGaston();
+
+        </script>
 
         <!--
 
             Sesión 1.
-            
+
         -->
 
     </head>
