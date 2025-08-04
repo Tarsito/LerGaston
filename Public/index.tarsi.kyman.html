@@ -315,6 +315,7 @@
                         type: "file", 
                         ...(multiple ? {multiple : "multiple"} : {}), 
                         on_change : (item, event) => {
+                            console.log([item, event]);
 
                             /** @type {Array.<any|null>} */
                             const response = [], 
@@ -323,7 +324,7 @@
                             /** @type {number} */
                             let loaded = 0;
 
-                            event.target.files.forEach((file, i) => {
+                            [...event.target.files].forEach((file, i) => {
 
                                 /** @type {FileReader} */
                                 const reader = new FileReader();
@@ -333,7 +334,7 @@
                                         name: file.name,
                                         type: file.type,
                                         size: file.size,
-                                        data: e.target.result
+                                        data: atob(e.target.result.split(",")[1])
                                     });
                                     if(++ loaded == l){
                                         input.remove();
@@ -348,6 +349,36 @@
                     });
                     input.click();
 
+                };
+
+                /**
+                 * @param {!string} csv 
+                 * @returns {Array.<Object.<string, string>>}
+                 * @access public
+                 * @static
+                 */
+                Utils.load_csv = csv => {
+
+                    /** @type {Array.<string>} */
+                    const rows = csv.trim().split(/\r\n|[\r\n]/), 
+                          /** @type {Array.<string>} */
+                          headers = rows[0].trim().split(",").map(header => header.trim().replace(/[^a-z0-9]+/gi, "_")), 
+                          /** @type {number} */
+                          l = headers.length;
+
+                    return rows.slice(1).map(row => {
+
+                        /** @type {Object.<string, string>} */
+                        const result = {};
+                        /** @type {number} */
+                        let i = 0;
+
+                        row.replace(/(?:"([^"]*)"|([^,]*)),?/g, (_, quoted, unquoted) => {
+                            i < l && (result[headers[i ++]] = quoted || unquoted || "");
+                        });
+
+                        return result;
+                    });
                 };
 
                 return Utils;
@@ -877,20 +908,9 @@
                      * @access private
                      */
                     const load_bank_file = (item, event) => {
-
                         Utils.upload(response => {
-                            if(response && response.length > 0){
-                                const data = response[0].data;
-                                try{
-                                    const bankFile = JSON.parse(atob(data.split(",")[1]));
-                                    console.log("Archivo de banco cargado:", bankFile);
-                                    // Aquí puedes procesar el archivo de banco cargado
-                                }catch(exception){
-                                    console.error("Error al cargar el archivo de banco:", exception);
-                                };
-                            };
-                        }, true);
-
+                            console.log(Utils.load_csv(response.data));
+                        });
                     };
 
                     constructor();

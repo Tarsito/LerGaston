@@ -53,6 +53,11 @@ Esta sesión constará de 2 horas, y sus objetivos son los siguientes:
 * GUI estrucuturar y elementos.
 * Drivers.
 
+* División de la parte estática. 9 Tarsi  4 KyMaN
+* Logo y diseño. 10 Tarsi  9 KyMaN
+* GUI y estructuración. 4 Tarsi  6 KyMaN
+* Drivers. 3 Tarsi  0 KyMaN
+
 si da tiempo continuamos con lo siguiente.
 
 * Carga información.
