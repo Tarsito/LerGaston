@@ -6,148 +6,105 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <script data-module="data" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
-            "use strict";
-
-            /** @type {Object.<string, any|null>} */
-            const SETTINGS = {
-                /** @type {string} */
-                application_name : "LerGaston", 
-                /** @type {string} */
-                application_link : "https://lergaston.k3y.pw/", 
-                /** @type {string} */
-                application_git : "https://github.com/Tarsito/LerGaston/", 
-                /** @type {string} */
-                application_class : "ler-gaston", 
-                /** @type {string} */
-                application_logo : "/image/LerGaston.webp"
-            };
-
-        </script>
-
         <script data-module="styles" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
             "use strict";
 
             /** @type {number} */
             let preload = setInterval(() => {
-                if(!window.SASS)
+                if(!SASS)
                     return;
                 clearInterval(preload);
 
-                SASS({});
+                SASS({
+                    "body,html" : {
+                        height : "100%", 
+                        margin : "0em"
+                    }, 
+                    ["." + SETTINGS.application_class] : {
+                        position : "relative", 
+                        top : "0em", 
+                        left : "0em", 
+                        width : "100%", 
+                        height : "100%",
+                        overflow : "hidden", 
+
+                        "header,main,footer" : {
+                            position : "absolute", 
+                            left : "0em", 
+                            width : "100%"
+                        }, 
+                        header : {
+                            top : "0em", 
+                            height : "4em", 
+                            zIndex : 20
+                        }, 
+                        main : {
+                            top : "4em", 
+                            bottom : "2em", 
+                            zIndex : 10, 
+                            overflow : "auto"
+                        }, 
+                        footer : {
+                            bottom : "0em", 
+                            height : "2em", 
+                            zIndex : 30
+                        }, 
+
+                        h1 : {
+                            margin : "0em",
+                            padding : "0em", 
+                            fontSize : "1em", 
+                            fontWeight : "bold", 
+                            img : {
+                                width : "auto", 
+                                height : "3.6em", 
+                                "&+span" : {display : null}
+                            }, 
+                            a : {
+                                "&>[data-i18n]" : {fontSize : "4em"}, 
+                                "&>span" : {verticalAlign : "middle"}
+                            }
+
+                        }
+
+                    }
+                });
 
             }, 100);
 
         </script>
 
-        <script data-module="scripts" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
+        <script data-module="utils" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
             "use strict";
 
             /**
-             * @class LerGaston
+             * @class Utils
              * @constructor
              * @returns {void}
              * @access public
              * @static
              */
-            const LerGaston = (function(){
+            const Utils = (function(){
 
                 /**
-                 * @constructs LerGaston
+                 * @callback utils_upload
+                 * @param {Array.<Object.<string, any|null>>} response 
                  * @returns {void}
-                 * @access private
+                 */
+
+                /**
+                 * @callback utils_execute
+                 * @param {...(any|null)} [parameters] 
+                 * @returns {any|null}
+                 */
+
+                /**
+                 * @constructs Utils
+                 * @returns {void}
+                 * @access public
                  * @static
                  */
-                const LerGaston = function(custom = null){
-                    
-                    /** @type {LerGaston} */
-                    const self = this;
-
-                    /**
-                     * @returns {void}
-                     * @access private
-                     */
-                    const constructor = () => {
-
-                        /** @type {number} */
-                        let preload = setInterval(() => {
-
-                            const body = document.querySelector("body");
-
-                            if(body){
-                                clearInterval(preload);
-                                try{
-                                    build_gui(body);
-                                }catch(exception){
-                                    console.error(exception);
-                                };
-                            };
-
-                        }, 100);
-
-                    };
-
-                    /**
-                     * @param {!(string|Array.<string>)} keys 
-                     * @param {?(Object.<string, any|null>|Array.<any|null>)} [inputs = null] 
-                     * @param {?any} [_default = null] 
-                     * @returns {any|null}
-                     * @access public
-                     */
-                    this.get = (keys, inputs = null, _default = null) => LerGaston.get_value(keys, [
-                        inputs, custom, SETTINGS
-                    ], _default);
-
-                    /**
-                     * @param {!HTMLElement} position
-                     * @returns {void}
-                     * @access private
-                     */
-                    const build_gui = position => {
-
-                        /** @type {string} */
-                        const name = self.get("application_name"), 
-                              /** @type {string} */
-                              _class = self.get("application_class"), 
-                              /** @type {string} */
-                              link = self.get("application_link"), 
-                              /** @type {string} */
-                              git = self.get("application_git"), 
-                              /** @type {string} */
-                              logo = self.get("application_logo");
-
-                        LerGaston.html([
-                            ["div", {
-                                class : _class, 
-                                data_application_name : name, 
-                                data_application_link : link, 
-                                data_application_git : git, 
-                                data_application_logo : logo
-                            }, [
-                                ["header", null, [
-                                    ["h1", {
-                                        data_i18n : "ler_gaston", 
-                                        data_i18n_without : true, 
-                                        title : name
-                                    }, [
-                                        ["a", {href : link, target : "_self"}, [
-                                            ["span", {class : "image"}, [
-                                                ["img", {src : logo, data_i18n : "ler_gaston", data_i18n_without : true, alt : "LerGaston"}], 
-                                                ["span", {style : "background-image:url('" + logo + "')"}]
-                                            ]], 
-                                            ["span", {data_i18n : "ler_gaston"}, name]
-                                        ]]
-                                    ]]
-                                ]], 
-                                ["main"], 
-                                ["footer", null, []]
-                            ]]
-                        ], position);
-                    };
-
-                    constructor();
-
-                };
+                const Utils = function(){};
 
                 /**
                  * @param {?any} item 
@@ -155,7 +112,7 @@
                  * @access public
                  * @static
                  */
-                LerGaston.is_array = item => item instanceof Array;
+                Utils.is_array = item => item instanceof Array;
 
                 /**
                  * @param {?any} item 
@@ -163,7 +120,15 @@
                  * @access public
                  * @static
                  */
-                LerGaston.is_key = item => (
+                Utils.is_string = item => typeof item == "string";
+
+                /**
+                 * @param {?any} item 
+                 * @returns {boolean}
+                 * @access public
+                 * @static
+                 */
+                Utils.is_key = item => (
                     item && 
                     typeof item == "string" && 
                     item.trim() == item && 
@@ -176,7 +141,32 @@
                  * @access public
                  * @static
                  */
-                LerGaston.is_dictionary = item => item && item.constructor == Object;
+                Utils.is_object = item => item !== null && typeof item == "object";
+
+                /**
+                 * @param {?any} item 
+                 * @returns {boolean}
+                 * @access public
+                 * @static
+                 */
+                Utils.is_function = item => typeof item == "function";
+
+                /**
+                 * @param {?any} item 
+                 * @returns {boolean}
+                 * @access public
+                 * @static
+                 */
+                Utils.is_dictionary = item => item && item.constructor == Object;
+
+                /**
+                 * @param {!utils_execute} callback 
+                 * @param {...(any|null)} [parameters] 
+                 * @returns {any|null}
+                 * @access public
+                 * @static
+                 */
+                Utils.execute = (callback, ...parameters) => Utils.is_function(callback) ? callback(...parameters) : null;
 
                 /**
                  * @param {...(any|null)} items 
@@ -184,15 +174,15 @@
                  * @access public
                  * @static
                  */
-                LerGaston.get_keys = (...items) => {
+                Utils.get_keys = (...items) => {
 
                     /** @type {Array.<string>} */
                     const keys = [];
 
                     items.forEach(item => {
-                        if(LerGaston.is_array(item))
-                            keys.push(...LerGaston.get_keys(...item));
-                        else if(LerGaston.is_key(item))
+                        if(Utils.is_array(item))
+                            keys.push(...Utils.get_keys(...item));
+                        else if(Utils.is_key(item))
                             keys.push(item);
                     });
 
@@ -205,15 +195,15 @@
                  * @access public
                  * @static
                  */
-                LerGaston.get_dictionaries = (...items) => {
+                Utils.get_dictionaries = (...items) => {
 
                     /** @type {{Array.<Object.<string, any|null>>} */
                     const dictionaries = [];
 
                     items.forEach(item => {
-                        if(LerGaston.is_array(item))
-                            dictionaries.push(...LerGaston.get_dictionaries(...item));
-                        else if(LerGaston.is_dictionary(item))
+                        if(Utils.is_array(item))
+                            dictionaries.push(...Utils.get_dictionaries(...item));
+                        else if(Utils.is_dictionary(item))
                             dictionaries.push(item);
                     });
 
@@ -228,12 +218,12 @@
                  * @access public
                  * @static
                  */
-                LerGaston.get_value = (keys, inputs, _default = null) => {
+                Utils.get_value = (keys, inputs, _default = null) => {
 
                     /** @type {number} */
-                    const l = (inputs = LerGaston.get_dictionaries(inputs)).length, 
+                    const l = (inputs = Utils.get_dictionaries(inputs)).length, 
                           /** @type {number} */
-                          m = (keys = LerGaston.get_keys(keys)).length;
+                          m = (keys = Utils.get_keys(keys)).length;
                     
                     for(let i = 0; i < l; i ++)
                         for(let j = 0; j < m; j ++)
@@ -249,9 +239,15 @@
                  * @access public
                  * @static
                  */
-                LerGaston.css = (item, attributes) => {
-                    for(const key in attributes)
-                        item.setAttribute(key, attributes[key]);
+                Utils.css = (item, attributes) => {
+                    for(const key in attributes){
+                        if(/^on_?/i.test(key) && Utils.is_function(attributes[key]))
+                            item.addEventListener(key.replace(/^on_?/i, ""), event => {
+                                attributes[key](item, event);
+                            });
+                        else 
+                            item.setAttribute(key.replace(/[^a-z0-9]+/gi, "-"), attributes[key]);
+                    };
                 };
 
                 /**
@@ -261,13 +257,13 @@
                  * @access public
                  * @static
                  */
-                LerGaston.html = (structure, parent = null) => {
+                Utils.html = (structure, parent = null) => {
 
                     /** @type {Array.<HTMLElement>} */
                     const items = [];
 
                     structure.forEach(item => {
-                        if(LerGaston.is_array(item)){
+                        if(Utils.is_array(item)){
 
                             /** @type {[string, Object.<string, any|null>|null, Array.<any|null>|null]} */
                             const [tag, attributes, children] = item.concat([null, null]).slice(0, 3), 
@@ -275,10 +271,10 @@
                                   subitem = document.createElement(tag);
 
                             items.push(subitem);
-                            attributes && LerGaston.css(subitem, attributes);
+                            attributes && Utils.css(subitem, attributes);
                             if(children){
-                                if(LerGaston.is_array(children))
-                                    LerGaston.html(children, subitem);
+                                if(Utils.is_array(children))
+                                    Utils.html(children, subitem);
                                 else 
                                     subitem.innerHTML = children;
                             };
@@ -292,159 +288,69 @@
                 };
 
                 /**
-                 * @class LerGaston.TypeModel
-                 * @constructor
-                 * @param {!string} name 
-                 * @returns {void}
+                 * @param {?any} data 
+                 * @param {string} [mime = "application/octet-stream"] 
+                 * @returns {string}
                  * @access public
                  * @static
                  */
-                LerGaston.TypeModel = (function(){
-
-                    /**
-                     * @class OrderModel
-                     * @constructor
-                     * @param {!string} name 
-                     * @returns {void}
-                     * @access public
-                     * @static
-                     */
-                    const OrderModel = function(name){
-
-                        /** @type {string} */
-                        this.name = name;
-
-                    };
-
-                    return OrderModel;
-                })();
+                Utils.to_url = (data, mime = "application/octet-stream") => "data:" + mime + ";base64," + btoa(
+                    Utils.is_string(data) ? data : 
+                    Utils.is_object(data) ? JSON.stringify(data) : 
+                "" + data);
 
                 /**
-                 * @class LerGaston.CoinModel
-                 * @constructor
-                 * @param {!string} name 
+                 * @param {!utils_upload} callback 
+                 * @param {!boolean} [multiple = false] 
                  * @returns {void}
                  * @access public
                  * @static
                  */
-                LerGaston.CoinModel = (function(){
+                Utils.upload = (callback, multiple = false) => {
 
-                    /**
-                     * @class CoinModel
-                     * @constructor
-                     * @param {!string} name 
-                     * @returns {void}
-                     * @access public
-                     * @static
-                     */
-                    const CoinModel = function(name){
+                    /** @type {HTMLInputElement} */
+                    const input = document.querySelector("body").appendChild(document.createElement("input"));
 
-                        /** @type {string} */
-                        this.name = name;
+                    Utils.css(input, {
+                        type: "file", 
+                        ...(multiple ? {multiple : "multiple"} : {}), 
+                        on_change : (item, event) => {
 
-                    };
+                            /** @type {Array.<any|null>} */
+                            const response = [], 
+                                  /** @type {number} */
+                                  l = event.target.files.length;
+                            /** @type {number} */
+                            let loaded = 0;
 
-                    return CoinModel;
-                })();
+                            event.target.files.forEach((file, i) => {
 
-                /**
-                 * @class LerGaston.GroupModel
-                 * @constructor
-                 * @param {!string} name 
-                 * @returns {void}
-                 * @access public
-                 * @static
-                 */
-                LerGaston.GroupModel = (function(){
+                                /** @type {FileReader} */
+                                const reader = new FileReader();
 
-                    /**
-                     * @class GroupModel
-                     * @constructor
-                     * @param {!string} name 
-                     * @returns {void}
-                     * @access public
-                     * @static
-                     */
-                    const GroupModel = function(name){
+                                reader.onload = e => {
+                                    response.push({
+                                        name: file.name,
+                                        type: file.type,
+                                        size: file.size,
+                                        data: e.target.result
+                                    });
+                                    if(++ loaded == l){
+                                        input.remove();
+                                        Utils.execute(callback, ...response);
+                                    };
+                                };
+                                reader.readAsDataURL(file);
 
-                        /** @type {string} */
-                        this.name = name;
+                            });
 
-                    };
+                        }
+                    });
+                    input.click();
 
-                    return GroupModel;
-                })();
+                };
 
-                /**
-                 * @class LerGaston.EntityModel
-                 * @constructor
-                 * @param {!string} name 
-                 * @returns {void}
-                 * @access public
-                 * @static
-                 */
-                LerGaston.EntityModel = (function(){
-
-                    /**
-                     * @class EntityModel
-                     * @constructor
-                     * @param {!string} name 
-                     * @returns {void}
-                     * @access public
-                     * @static
-                     */
-                    const EntityModel = function(name){
-
-                        /** @type {string} */
-                        this.name = name;
-                        /** @type {Array.<number>} */
-                        this.groups = [];
-
-                    };
-
-                    return EntityModel;
-                })();
-
-                /**
-                 * @class LerGaston.OrderModel
-                 * @constructor
-                 * @param {!string} name 
-                 * @returns {void}
-                 * @access public
-                 * @static
-                 */
-                LerGaston.OrderModel = (function(){
-
-                    /**
-                     * @class OrderModel
-                     * @constructor
-                     * @returns {void}
-                     * @access public
-                     * @static
-                     */
-                    const OrderModel = () => {
-
-                        /** @type {Array.<Date>} */
-                        this.date_start = null;
-                        /** @type {Array.<Date>} */
-                        this.date_done = null;
-                        /** @type {Array.<number>} */
-                        this.type = null;
-                        /** @type {Array.<number>} */
-                        this.quantity = null;
-                        /** @type {Array.<number>} */
-                        this.coin = null;
-                        /** @type {Array.<[number, number]>} */
-                        this.groups = [];
-                        /** @type {Array.<number>} */
-                        this.entity = null;
-
-                    };
-
-                    return OrderModel;
-                })();
-
-                return LerGaston;
+                return Utils;
             })();
 
             /**
@@ -469,41 +375,529 @@
                     /** @type {HTMLStyleElement|null} */
                     let style = document.querySelector("style");
 
-                    if(!style){
-                        style = document.querySelector("head").appendChild(document.createElement("style"));
-                        style.setAttribute("type", "text/css;charset=utf-8");
-                        style.setAttribute("data-rel", "stylesheet");
-                        style.setAttribute("charset", "utf-8");
-                    };
+                    style || 
+                    Utils.css(style = document.querySelector("head").appendChild(document.createElement("style")), {
+                        data_type : "text/css;charset=utf-8", 
+                        data_rel : "stylesheet",
+                        charset : "utf-8"
+                    });
 
-                    style.textContent += SASS.build(sass);
+                    style.appendChild(document.createTextNode(SASS.build(sass).join("")));
 
                 };
 
                 /**
                  * @param {!Object.<string, any|null>} sass 
                  * @param {!string} [parent = ""] 
-                 * @returns {string}
+                 * @returns {[string, string]}
                  * @access public
                  * @static
                  */
                 SASS.build = (sass, parent = "") => {
 
                     /** @type {string} */
-                    let selector, 
-                        /** @type {string} */
-                        css = ``;
+                    let nested = ``;
 
-                    css += Object.keys(sass).reduce((css, key) => css + (
-                        typeof sass[key] == "object" && sass[key].constructor == Object ? `\n\n${selector = parent + (
-                            ["&", ">", "~"].includes(parent[0]) ? "" : " "
-                        ) + key}\{${SASS.build(sass[key], selector)}\n}` : 
-                    `\n    ${key}: ${sass[key]};`));
-                    
-                    return css;
+                    return [Object.keys(sass).reduce((css, key) => {
+                        if(Utils.is_dictionary(sass[key]))
+                            key.split(",").forEach(subselector => {
+                                
+                                /** @type {string} */
+                                const selector = parent + (
+                                          ["&", ">", "~"].includes(subselector[0]) ? "" : 
+                                      " ") + (["&"].includes(subselector[0]) ? subselector.slice(1) : subselector), 
+                                      /** @type {[string, string]} */
+                                      [child, child_nested] = SASS.build(sass[key], selector);
+
+                                nested += `\n\n${selector}\{${child}\n}${child_nested}`;
+
+                            });
+                        else 
+                            css += `\n    ${key.replace(/([A-Z]+)|([^a-z0-9]+)/g, (_, upper, dash) => upper ? "-" + upper.toLowerCase() : "-")}: ${sass[key] === null ? "none" : sass[key]};`;
+                        return css;
+                    }, ``), nested];
                 };
 
-                return SASS
+                return SASS;
+            })();
+
+        </script>
+
+        <script data-module="data" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
+            "use strict";
+
+            /** @type {Object.<string, any|null>} */
+            const SETTINGS = {
+                /** @type {string} */
+                application_name : "LerGaston", 
+                /** @type {string} */
+                application_link : "https://lergaston.k3y.pw/", 
+                /** @type {string} */
+                application_git : "https://github.com/Tarsito/LerGaston/", 
+                /** @type {string} */
+                application_class : "ler-gaston", 
+                /** @type {string} */
+                application_logo : Utils.to_url(`<?xml version="1.0" encoding="UTF-8"?>
+                    <svg width="450px" height="400px" viewBox="0 0 450 400" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>Ler Gaston Logo</title>
+                        <defs>
+                            <radialGradient id="gold_gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                <stop offset="0%" style="stop-color:#FFD700; stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#B8860B; stop-opacity:1" />
+                            </radialGradient>
+                        </defs>
+                        <g id="money" transform="translate(50, 100)">
+                            <g id="banknotes">
+                                <path d="M 40,25 L 200,65 L 210,125 L 50,85 Z" fill="#000000" fill-opacity="0.2" transform="translate(3,3)" />
+                                <path d="M 40,25 L 50,85 L 55,83 L 45,23 Z" fill="#a99aca" />
+                                <path d="M 50,85 L 210,125 L 208,122 L 48,82 Z" fill="#a99aca" />
+                                <path d="M 40,20 L 200,60 L 210,120 L 50,80 Z" fill="#dcd6f0" />
+                                <path d="M 55,35 L 105,48 L 110,75 L 60,62 Z" fill="#c9bfe3" />
+                                <text x="60" y="40" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#4b3d83" transform="skewY(15) rotate(-3)">LerGaston</text>
+                                <text x="120" y="49" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#4b3d83" transform="skewY(10) rotate(0)">
+                                    <tspan dx="2">500</tspan><tspan></tspan>
+                                </text>
+                            </g>
+                            <g id="coin" transform="translate(110, 80)">
+                                <circle cx="53" cy="53" r="50" fill="#000000" fill-opacity="0.2" />
+                                <circle cx="50" cy="50" r="50" fill="url(#gold_gradient)" />
+                                <circle cx="50" cy="50" r="46" fill="none" stroke="#b1820a" stroke-width="2" />
+                                <circle cx="50" cy="50" r="38" fill="#e8c452" />
+                                <text x="50" y="53" text-anchor="middle" alignment-baseline="middle" font-family="Arial, sans-serif" font-size="45" font-weight="bold" fill="#6b4f2c">2</text>
+                            </g>
+                        </g>
+                    </svg>
+                `, "image/svg+xml")
+            };
+
+        </script>
+
+        <script data-module="models" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
+            "use strict";
+
+            /**
+             * @class TypeModel
+             * @constructor
+             * @param {!string} name 
+             * @returns {void}
+             * @access public
+             * @static
+             */
+            const TypeModel = (function(){
+
+                /**
+                 * @class TypeModel
+                 * @constructor
+                 * @param {!string} name 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                const TypeModel = function(name){
+
+                    /** @type {string} */
+                    this.name = name;
+
+                };
+
+                return TypeModel;
+            })();
+
+            /**
+             * @class CoinModel
+             * @constructor
+             * @param {!string} name 
+             * @returns {void}
+             * @access public
+             * @static
+             */
+            const CoinModel = (function(){
+
+                /**
+                 * @class CoinModel
+                 * @constructor
+                 * @param {!string} name 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                const CoinModel = function(name){
+
+                    /** @type {string} */
+                    this.name = name;
+
+                };
+
+                return CoinModel;
+            })();
+
+            /**
+             * @class GroupModel
+             * @constructor
+             * @param {!string} name 
+             * @returns {void}
+             * @access public
+             * @static
+             */
+            const GroupModel = (function(){
+
+                /**
+                 * @class GroupModel
+                 * @constructor
+                 * @param {!string} name 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                const GroupModel = function(name){
+
+                    /** @type {string} */
+                    this.name = name;
+
+                };
+
+                return GroupModel;
+            })();
+
+            /**
+             * @class EntityModel
+             * @constructor
+             * @param {!string} name 
+             * @returns {void}
+             * @access public
+             * @static
+             */
+            const EntityModel = (function(){
+
+                /**
+                 * @class EntityModel
+                 * @constructor
+                 * @param {!string} name 
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                const EntityModel = function(name){
+
+                    /** @type {string} */
+                    this.name = name;
+                    /** @type {Array.<number>} */
+                    this.groups = [];
+
+                };
+
+                return EntityModel;
+            })();
+
+            /**
+             * @class OrderModel
+             * @constructor
+             * @param {!string} name 
+             * @returns {void}
+             * @access public
+             * @static
+             */
+            const OrderModel = (function(){
+
+                /**
+                 * @class OrderModel
+                 * @constructor
+                 * @returns {void}
+                 * @access public
+                 * @static
+                 */
+                const OrderModel = () => {
+
+                    /** @type {Array.<Date>} */
+                    this.date_start = null;
+                    /** @type {Array.<Date>} */
+                    this.date_done = null;
+                    /** @type {Array.<number>} */
+                    this.type = null;
+                    /** @type {Array.<number>} */
+                    this.quantity = null;
+                    /** @type {Array.<number>} */
+                    this.coin = null;
+                    /** @type {Array.<[number, number]>} */
+                    this.groups = [];
+                    /** @type {Array.<number>} */
+                    this.entity = null;
+
+                };
+
+                return OrderModel;
+            })();
+        </script>
+
+        <script data-module="scripts" data-type="text/javascript" data-language="ECMAScript 2015" charset="utf-8">
+            "use strict";
+
+            /**
+             * @class LerGaston
+             * @constructor
+             * @param {?(Object.<string, any|null>|Array.<any|null>)} [custom = null] 
+             * @returns {void}
+             * @access public
+             * @static
+             */
+            const LerGaston = (function(){
+
+                /**
+                 * @callback ler_gaston_js_event
+                 * @param {!HTMLElement} item 
+                 * @param {!Event} event 
+                 * @returns {void}
+                 */
+
+                /**
+                 * @constructs LerGaston
+                 * @param {?(Object.<string, any|null>|Array.<any|null>)} [custom = null] 
+                 * @returns {void}
+                 * @access private
+                 * @static
+                 */
+                const LerGaston = function(custom = null){
+                    
+                    /** @type {LerGaston} */
+                    const self = this;
+
+                    /**
+                     * @returns {void}
+                     * @access private
+                     */
+                    const constructor = () => {
+
+                        /** @type {number} */
+                        let preload = setInterval(() => {
+
+                            /** @type {HTMLBodyElement|null} */
+                            const body = document.querySelector("body");
+
+                            if(body){
+                                clearInterval(preload);
+                                try{
+                                    build_gui(body);
+                                }catch(exception){
+                                    console.error(exception);
+                                };
+                            };
+
+                        }, 100);
+
+                    };
+
+                    /**
+                     * @param {!(string|Array.<string>)} keys 
+                     * @param {?(Object.<string, any|null>|Array.<any|null>)} [inputs = null] 
+                     * @param {?any} [_default = null] 
+                     * @returns {any|null}
+                     * @access public
+                     */
+                    this.get = (keys, inputs = null, _default = null) => Utils.get_value(keys, [
+                        inputs, custom, SETTINGS
+                    ], _default);
+
+                    /**
+                     * @param {!HTMLElement} position
+                     * @returns {void}
+                     * @access private
+                     */
+                    const build_gui = position => {
+
+                        /** @type {string} */
+                        const name = self.get("application_name"), 
+                              /** @type {string} */
+                              _class = self.get("application_class"), 
+                              /** @type {string} */
+                              link = self.get("application_link"), 
+                              /** @type {string} */
+                              git = self.get("application_git"), 
+                              /** @type {string} */
+                              logo = self.get("application_logo");
+
+                        Utils.html([
+                            ["div", {
+                                class : _class, 
+                                data_application_name : name, 
+                                data_application_link : link, 
+                                data_application_git : git, 
+                                //data_application_logo : logo
+                            }, [
+                                ["header", null, [
+                                    ["h1", {
+                                        data_i18n : "ler_gaston", 
+                                        data_i18n_without : true, 
+                                        title : name
+                                    }, [
+                                        ["a", {href : link, target : "_self"}, [
+                                            ["span", {class : "image"}, [
+                                                ["img", {src : logo, data_i18n : "ler_gaston", data_i18n_without : true, alt : "LerGaston"}], 
+                                                ["span", {style : "background-image:url('" + logo + "')"}]
+                                            ]], 
+                                            ["span", {data_i18n : "ler_gaston"}, name]
+                                        ]]
+                                    ]]
+                                ]], 
+                                ["main", null, [
+                                    ["fieldset", {class : "menu"}, [
+                                        ["legend", {data_i18n : "menu"}, "Menu"], 
+                                        ["nav", null, [
+                                            ["ul", null, [
+                                                self.menu_option("load_database", load_database, "Cargar base de datos"), 
+                                                self.menu_option("save_database", save_database, "Guardar base de datos"), 
+                                                self.menu_option("load_bank_file", load_bank_file, "Cargar archivo de banco"), 
+                                            ]]
+                                        ]]
+                                    ]], 
+                                    ["fieldset", {class : "content"}, [
+                                        ["legend", {data_i18n : "content"}, "Contenido"]
+                                    ]]
+                                ]], 
+                                ["footer", null, [
+                                    ["span", {class : "license"}, [
+                                        ["span", {class : "copyright"}, [
+                                            ["span", null, "© CopyRight 2025-2026"], 
+                                            ["span", {class : "tarsi"}, "Tarsi"], 
+                                            ["span", {class : "kyman"}, "KyMAN"]
+                                        ]], 
+                                        ["a", {class : "cc-by-nc-sa-4", href : "https://creativecommons.org/licenses/by-nc-sa/4.0/", target : "_blank"}, [
+                                            ["span", {data_i18n : "cc_by_nc_sa_4"}, "Creative Commons Attribution-NoCommerce-ShareDAlike 4.0"],
+                                            ["img", {src : "https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png", alt : "Creative Commons BY-NC-SA 4.0"}]
+                                        ]]
+                                    ]]
+                                ]]
+                            ]]
+                        ], position);
+
+                    };
+
+                    /**
+                     * @param {!string} name 
+                     * @returns {[string, Object.<string, string>]}
+                     * @access public
+                     */
+                    this.icon = name => ["span", {data_icon : name}];
+
+                    /**
+                     * @param {!string} name 
+                     * @param {?string} [text = null] 
+                     * @returns {[string, Object.<string, string>, string]}
+                     * @access public
+                     */
+                    this.i18n = (name, text = null) => ["span", {data_i18n : name}, text === null ? name : text];
+
+                    /**
+                     * @param {!string} name 
+                     * @param {!ler_gaston_js_event} action 
+                     * @param {?string} [text = null] 
+                     * @returns {[string, Object.<string, any|null>, Array.<any|null>]}
+                     * @access public
+                     */
+                    this.menu_option = (name, action, text = null) => ["li", {
+                        data_i18n : name, 
+                        data_i18n_without : true, 
+                        title : text === null ? name : text, 
+                        on_click : (item, event) => Utils.execute(action, item, event)
+                    }, [
+                        self.icon(name), 
+                        self.i18n(name, text)
+                    ]];
+
+                    /**
+                     * @param {!string} name 
+                     * @param {!ler_gaston_js_event} action 
+                     * @param {?string} [text = null] 
+                     * @returns {[string, Object.<string, any|null>, Array.<any|null>]}
+                     * @access public
+                     */
+                    this.button = (name, action, text = null) => ["button", {
+                        type : "button", 
+                        data_i18n : name, 
+                        data_i18n_without : true, 
+                        title : text === null ? name : text, 
+                        on_click : (item, event) => Utils.execute(action, item, event)
+                    }, [
+                        self.icon(name), 
+                        self.i18n(name, text)
+                    ]];
+
+                    /**
+                     * @param {!HTMLElement} item 
+                     * @param {!ler_gaston_js_event} event 
+                     * @returns {void}
+                     * @access private
+                     */
+                    const load_database = (item, event) => {
+
+                        Utils.upload(response => {
+                            if(response && response.length > 0){
+                                const data = response[0].data;
+                                try{
+                                    const database = JSON.parse(atob(data.split(",")[1]));
+                                    console.log("Base de datos cargada:", database);
+                                    // Aquí puedes procesar la base de datos cargada
+                                }catch(exception){
+                                    console.error("Error al cargar la base de datos:", exception);
+                                };
+                            };
+                        }, true);
+
+                    };
+
+                    /**
+                     * @param {!HTMLElement} item 
+                     * @param {!ler_gaston_js_event} event 
+                     * @returns {void}
+                     * @access private
+                     */
+                    const save_database = (item, event) => {
+
+                        const database = {
+                            types: [], 
+                            coins: [], 
+                            groups: [], 
+                            entities: [], 
+                            orders: []
+                        };
+
+                        // Aquí puedes llenar el objeto database con los datos que quieras guardar
+
+                        const data = Utils.to_url(JSON.stringify(database), "application/json");
+                        const link = document.createElement("a");
+                        link.href = data;
+                        link.download = "database.json";
+                        link.click();
+
+                    };
+
+                    /**
+                     * @param {!HTMLElement} item 
+                     * @param {!ler_gaston_js_event} event 
+                     * @returns {void}
+                     * @access private
+                     */
+                    const load_bank_file = (item, event) => {
+
+                        Utils.upload(response => {
+                            if(response && response.length > 0){
+                                const data = response[0].data;
+                                try{
+                                    const bankFile = JSON.parse(atob(data.split(",")[1]));
+                                    console.log("Archivo de banco cargado:", bankFile);
+                                    // Aquí puedes procesar el archivo de banco cargado
+                                }catch(exception){
+                                    console.error("Error al cargar el archivo de banco:", exception);
+                                };
+                            };
+                        }, true);
+
+                    };
+
+                    constructor();
+
+                };
+
+                return LerGaston;
             })();
 
         </script>

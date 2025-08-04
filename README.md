@@ -53,6 +53,8 @@ Esta sesión constará de 2 horas, y sus objetivos son los siguientes:
 * GUI estrucuturar y elementos.
 * Drivers.
 
+si da tiempo continuamos con lo siguiente.
+
 * Carga información.
 * Generación informes.
 * Almacenado de datos.
